@@ -9,12 +9,12 @@ RUN apt-get update && \
 	apt-get install -y autotools-dev build-essential g++ libbz2-dev libicu-dev python-dev wget doxygen python3 python3-dev libboost-all-dev curl && \
         apt-get clean -qy
 # P2P (seed) port
-EXPOSE 7777
+EXPOSE 9777
 # RPC ports
 EXPOSE 5000
 EXPOSE 8090
 
-ARG peerplaysd_version=0.1.8
+ARG peerplaysd_version=0.1.9
 
 RUN cd ~ && \
 	git clone https://github.com/pbsa/peerplays.git && \
