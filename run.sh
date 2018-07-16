@@ -20,7 +20,7 @@ WHITE="$(tput setaf 7)"
 RESET="$(tput sgr0)"
 
 # default. override in .env
-PORTS="7777"
+PORTS="9777"
 
 if [[ -f .env ]]; then
     source .env
@@ -70,10 +70,10 @@ install() {
     # step 1, get rid of old peerplays
     echo "Stopping and removing any existing peerplays containers"
     docker stop peerplays
-    echo "Loading image from someguy123/peerplays"
-    docker pull someguy123/peerplays
+    echo "Loading image from fletchertyler914/peerplays"
+    docker pull fletchertyler914/peerplays
     echo "Tagging as peerplays"
-    docker tag someguy123/peerplays peerplays
+    docker tag fletchertyler914/peerplays peerplays
     echo "Installation completed. You may now configure or run the server"
 }
 
