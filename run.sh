@@ -2,7 +2,7 @@
 #
 # Peerplays node manager
 # Released under GNU AGPL by Someguy123
-#
+# Modified by Tyler Fletcher
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DOCKER_DIR="$DIR/dkr"
@@ -43,18 +43,18 @@ help() {
     echo "Usage: $0 COMMAND [DATA]"
     echo
     echo "Commands: "
-    echo "    start - starts peerplays container"
-    echo "    replay - starts peerplays container (in replay mode)"
-    echo "    shm_size - resizes /dev/shm to size given, e.g. ./run.sh shm_size 10G "
-    echo "    stop - stops peerplays container"
-    echo "    status - show status of peerplays container"
-    echo "    restart - restarts peerplays container"
-    echo "    install - pulls latest docker image from server (no compiling)"
-    echo "    rebuild - builds peerplays container (from docker file), and then restarts it"
-    echo "    build - only builds peerplays container (from docker file)"
-    echo "    logs - show all logs inc. docker logs, and peerplays logs"
-    echo "    wallet - open cli_wallet in the container"
-    echo "    enter - enter a bash session in the container"
+    echo "    start - Starts Peerplays Container"
+    echo "    replay - Starts Peerplays Container (In Replay Mode)"
+    echo "    shm_size - Resizes /dev/shm to size given, e.g. ./run.sh shm_size 10G "
+    echo "    stop - Stops The Peerplays Container"
+    echo "    status - Show The Status Of The Peerplays Container"
+    echo "    restart - Restarts The Peerplays Container"
+    echo "    download_image - Downloads the latest docker image from Docker Hub (no compiling)"
+    echo "    build - Builds The Peerplays Container (From Dockerfile)"
+    echo "    build_and_start - Builds The Peerplays Container (From Dockerfile) And Starts The Container"
+    echo "    logs - Show All Logs (Docker Logs and Peerplays Logs)"
+    echo "    wallet - Open cli_wallet in the container"
+    echo "    enter - Enter a bash session in the container"
     echo
     exit
 }
@@ -66,15 +66,13 @@ build() {
     docker build -t peerplays .
 }
 
-install() {
-    # step 1, get rid of old peerplays
-    echo "Stopping and removing any existing peerplays containers"
-    docker stop peerplays
-    echo "Loading image from fletchertyler914/peerplays"
-    docker pull fletchertyler914/peerplays
+download_image() {
+    echo "Loading image from fletchertyler914/peerplays:latest"
+    docker pull fletchertyler914/peerplays:latest
     echo "Tagging as peerplays"
-    docker tag fletchertyler914/peerplays peerplays
-    echo "Installation completed. You may now configure or run the server"
+    docker tag fletchertyler914/peerplays:latest peerplays
+    echo "Latest Peerplays Docker Image Has Been Fetched."
+    echo "Don't Forget To Configure Your Witness Node Details!"
 }
 
 seed_exists() {
@@ -170,8 +168,8 @@ case $1 in
         echo "You may want to use '$0 install' for a binary image instead, it's faster."
         build
         ;;
-    install)
-        install
+    download_image)
+        download_image
         ;;
     start)
         start
@@ -190,7 +188,7 @@ case $1 in
         sleep 5
         start
         ;;
-    rebuild)
+    build_and_start)
         stop
         sleep 5
         build
